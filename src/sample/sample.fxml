@@ -22,7 +22,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem fx:id="mnuItmChangeCategories" mnemonicParsing="false" text="Change categories" />
+              <MenuItem fx:id="mnuItmChangeCategories" mnemonicParsing="false" onAction="#activateLoginTab" text="Change categories" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -34,9 +34,9 @@
       </MenuBar>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Play">
+          <Tab fx:id="tabPlay" text="Play">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightpink;">
                      <children>
@@ -65,7 +65,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Login">
+          <Tab fx:id="tabLogin" disable="true" text="Login">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
