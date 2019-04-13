@@ -37,7 +37,13 @@ public class Utility {
         File directory = new File(path);
 
         for(File file : directory.listFiles()) {
-            fileNamesWithoutExtension.add(file.getName());
+            try {
+                fileNamesWithoutExtension.add(
+                        file.getName().substring(0, file.getName().indexOf(".")));
+            }
+            catch (Exception e) {
+                //do nothing, go on to next file
+            }
         }
 
         return fileNamesWithoutExtension;
