@@ -1,6 +1,7 @@
 package sample;
 
 import constants.ApplicationConstants;
+import helper.Utility;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -18,6 +19,8 @@ public class Controller {
     public Label lblUsername;
     public Label lblPassword;
     public Tab tabCategories;
+    public Button btnAddCategory;
+    public TextField txtFieldCategoryName;
 
     public void loginAction(ActionEvent event) {
         if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGIN_TEXT)) {
@@ -52,6 +55,12 @@ public class Controller {
     public void loginEnterKey(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             loginAction(null);
+        }
+    }
+
+    public void addCategory(ActionEvent event) {
+        if(!txtFieldCategoryName.getText().isEmpty()) {
+            Utility.createCategoryFile(txtFieldCategoryName.getText());
         }
     }
 }

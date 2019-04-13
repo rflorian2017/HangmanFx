@@ -7,4 +7,6 @@ public class ApplicationConstants {
     public static final String APP_PASSWORD = "admin";
 
     public static final String APP_FOLDER_DATA_PATH = "c:\\Users\\Public\\Documents\\hangman";
+    public static final String CATEGORIES_FOLDER_NAME = "categories";
+
 }
