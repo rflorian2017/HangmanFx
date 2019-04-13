@@ -4,6 +4,8 @@ import constants.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utility {
     public static void createDirectory(String path) {
@@ -28,5 +30,16 @@ public class Utility {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static List<String> listFilesWithoutExtensionFromPath(String path) {
+        ArrayList<String> fileNamesWithoutExtension = new ArrayList<>();
+        File directory = new File(path);
+
+        for(File file : directory.listFiles()) {
+            fileNamesWithoutExtension.add(file.getName());
+        }
+
+        return fileNamesWithoutExtension;
     }
 }
