@@ -26,7 +26,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        Utility.createAppDirectory(ApplicationConstants.APP_FOLDER_DATA_PATH);
+        Utility.createDirectory(ApplicationConstants.APP_FOLDER_DATA_PATH);
         launch(args);
     }
 }

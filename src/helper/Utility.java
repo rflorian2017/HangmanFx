@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Utility {
-    public static void createAppDirectory(String path) {
+    public static void createDirectory(String path) {
         File directory = new File(path);
         if(!directory.exists()) {
             directory.mkdir();
@@ -14,6 +14,10 @@ public class Utility {
     }
 
     public static void createCategoryFile(String categoryName) {
+        createDirectory(ApplicationConstants.APP_FOLDER_DATA_PATH
+                + "\\" +
+                ApplicationConstants.CATEGORIES_FOLDER_NAME);
+
         File categoryFile = new File(ApplicationConstants.APP_FOLDER_DATA_PATH
                 + "\\" +
                 ApplicationConstants.CATEGORIES_FOLDER_NAME +
