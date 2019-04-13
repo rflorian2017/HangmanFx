@@ -15,6 +15,7 @@ public class Controller {
     public Tab tabLogin;
     public Label lblUsername;
     public Label lblPassword;
+    public Tab tabCategories;
 
     public void loginAction(ActionEvent event) {
         if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGIN_TEXT)) {
@@ -25,6 +26,8 @@ public class Controller {
                 btnLogin.setText(ApplicationConstants.BTN_LOGOUT_TEXT);
                 lblPassword.setTextFill(Color.BLACK);
                 lblUsername.setTextFill(Color.BLACK);
+                tabPane.getTabs().get(2).setDisable(false);
+                tabPane.getSelectionModel().select(tabCategories);
 
             }
             else {
@@ -35,6 +38,7 @@ public class Controller {
             btnLogin.setText(ApplicationConstants.BTN_LOGIN_TEXT);
             tabPane.getSelectionModel().select(tabPlay);
             tabPane.getTabs().get(1).setDisable(true);
+            tabPane.getTabs().get(2).setDisable(true);
         }
     }
 
