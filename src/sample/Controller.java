@@ -3,6 +3,8 @@ package sample;
 import constants.ApplicationConstants;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 public class Controller {
@@ -45,5 +47,11 @@ public class Controller {
     public void activateLoginTab(ActionEvent event) {
         tabPane.getTabs().get(1).setDisable(false);
         tabPane.getSelectionModel().select(tabLogin);
+    }
+
+    public void loginEnterKey(KeyEvent keyEvent) {
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            loginAction(null);
+        }
     }
 }
