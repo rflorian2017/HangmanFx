@@ -12,9 +12,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.io.IOException;
 
 
 public class Controller {
@@ -31,12 +34,16 @@ public class Controller {
     public Button btnAddCategory;
     public TextField txtFieldCategoryName;
     public ComboBox comboboxCategories;
-
+    public TextField txtFieldNewWord;
+    public TextField txtFieldNewHint;
+    public Button btnAddWord;
+    public Label lblWordTabCategory;
+    public Label lblCategoryNameCombobox;
 
 
     public void initialize() {
         tabPane.getTabs().remove(tabLogin);
-        tabPane.getTabs().remove(tabCategories);
+        //tabPane.getTabs().remove(tabCategories);
     }
 
     public void loginAction(ActionEvent event) {
@@ -124,5 +131,40 @@ public class Controller {
         }
 
         //comboboxCategories.getSelectionModel().select(0);
+    }
+
+    public void handleAddWord(ActionEvent event) {
+        // region combobox category
+        if(comboboxCategories.getSelectionModel().getSelectedIndex() == -1) {
+            lblCategoryNameCombobox.setTextFill(Color.RED);
+        }
+
+        else {
+            lblCategoryNameCombobox.setTextFill(Color.BLACK);
+
+            // region Text field new word
+            if(!txtFieldNewWord.getText().isEmpty()) {
+                lblWordTabCategory.setTextFill(Color.BLACK);
+                try {
+                    Utility.addWordInCategory(txtFieldNewWord.getText(),
+                            txtFieldNewHint.getText(),
+                            comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                    comboboxCategories.getSelectionModel().select(-1);
+                    txtFieldNewWord.clear();
+                    txtFieldNewHint.clear();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            else {
+                lblWordTabCategory.setTextFill(Color.RED);
+            }
+            // endregion
+        }
+        // endregion
+
+
     }
 }

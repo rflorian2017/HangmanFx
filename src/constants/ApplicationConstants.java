@@ -8,5 +8,7 @@ public class ApplicationConstants {
 
     public static final String APP_FOLDER_DATA_PATH = "c:\\Users\\Public\\Documents\\hangman";
     public static final String CATEGORIES_FOLDER_NAME = "categories";
+    public static final String CATEGORY_FILE_EXTENSION = ".txt";
+    public static final String WORD_SEPARATOR_IN_CATEGORY_ENTRY = ";";
 
 }
