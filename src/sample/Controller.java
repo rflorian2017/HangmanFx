@@ -4,10 +4,18 @@ import constants.ApplicationConstants;
 import helper.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 
 public class Controller {
     public MenuItem mnuItmChangeCategories;
@@ -24,32 +32,60 @@ public class Controller {
     public TextField txtFieldCategoryName;
     public ComboBox comboboxCategories;
 
+
+
+    public void initialize() {
+        tabPane.getTabs().remove(tabLogin);
+        tabPane.getTabs().remove(tabCategories);
+    }
+
     public void loginAction(ActionEvent event) {
+        //text of button login is Login
         if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGIN_TEXT)) {
 
+            //correct user name and password
             if (txtFieldUserName.getText().equals(ApplicationConstants.APP_USERNAME) &&
                     passwordFieldPwd.getText().equals(ApplicationConstants.APP_PASSWORD)) {
 
                 btnLogin.setText(ApplicationConstants.BTN_LOGOUT_TEXT);
                 lblPassword.setTextFill(Color.BLACK);
                 lblUsername.setTextFill(Color.BLACK);
-                tabPane.getTabs().get(2).setDisable(false);
+
+                //add tab categories
+                tabPane.getTabs().add(tabCategories);
+                //activate tab categories
                 tabPane.getSelectionModel().select(tabCategories);
 
-            } else {
+                //do not allow anymore to edit text field user name and password field
+                txtFieldUserName.setEditable(false);
+                passwordFieldPwd.setEditable(false);
+                //uncomment this line to decorate text field with other font
+                //txtFieldUserName.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 12));
+
+            }
+            //incorrect user name or password
+            else {
                 lblPassword.setTextFill(Color.RED);
                 lblUsername.setTextFill(Color.RED);
             }
-        } else {
+        }
+        //button has text Logout
+        else {
+            //allow to edit text field user name and password field and clear the text
+            txtFieldUserName.setEditable(true);
+            passwordFieldPwd.setEditable(true);
+            txtFieldUserName.clear();
+            passwordFieldPwd.clear();
+
             btnLogin.setText(ApplicationConstants.BTN_LOGIN_TEXT);
+            tabPane.getTabs().remove(tabLogin);
+            tabPane.getTabs().remove(tabCategories);
             tabPane.getSelectionModel().select(tabPlay);
-            tabPane.getTabs().get(1).setDisable(true);
-            tabPane.getTabs().get(2).setDisable(true);
         }
     }
 
     public void activateLoginTab(ActionEvent event) {
-        tabPane.getTabs().get(1).setDisable(false);
+        tabPane.getTabs().add(tabLogin);
         tabPane.getSelectionModel().select(tabLogin);
     }
 
@@ -71,13 +107,22 @@ public class Controller {
     }
 
     public void fillCategoryCombobox(Event event) {
-        comboboxCategories.getItems().clear();
+        if(tabCategories.isSelected()) {
+            comboboxCategories.getItems().clear();
 
-        comboboxCategories.getItems().addAll(
-                Utility.listFilesWithoutExtensionFromPath(
-                        ApplicationConstants.APP_FOLDER_DATA_PATH +
-                                "\\" +
-                                ApplicationConstants.CATEGORIES_FOLDER_NAME));
+            try {
+                comboboxCategories.getItems().addAll(
+                        Utility.listFilesWithoutExtensionFromPath(
+                                ApplicationConstants.APP_FOLDER_DATA_PATH +
+                                        "\\" +
+                                        ApplicationConstants.CATEGORIES_FOLDER_NAME));
+            } catch (Exception e) {
+                //do nothing
+            } finally {
+                System.out.println("here I am");
+            }
+        }
+
         //comboboxCategories.getSelectionModel().select(0);
     }
 }
