@@ -30,7 +30,6 @@ public class Word {
     public Word(int id, String name) {
         this.id = id;
         this.name = name;
-        this.hint = null;
     }
 
 

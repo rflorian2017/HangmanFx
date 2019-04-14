@@ -94,7 +94,7 @@ public class Utility {
         for (Word word : words) {
             writer.append(word.getId() + ApplicationConstants.WORD_SEPARATOR_IN_CATEGORY_ENTRY);
             writer.append(word.getName());
-            if (!word.getHint().isEmpty()) {
+            if ((word.getHint() != null) && !word.getHint().isEmpty()) {
                 writer.append(ApplicationConstants.WORD_SEPARATOR_IN_CATEGORY_ENTRY);
                 writer.append(word.getHint());
             }
