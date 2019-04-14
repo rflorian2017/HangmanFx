@@ -36,19 +36,19 @@
    <center>
       <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tabPlay" text="Play">
+          <Tab fx:id="tabPlay" onSelectionChanged="#fillCategoryCombobox" text="Play">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ComboBox layoutX="74.0" layoutY="14.0" prefHeight="25.0" prefWidth="300.0" />
+                        <ComboBox fx:id="comboBoxSelectCategoryPlay" layoutX="74.0" layoutY="14.0" prefHeight="25.0" prefWidth="300.0" />
                         <Label layoutX="14.0" layoutY="18.0" text="Category" />
                         <CheckBox layoutX="384.0" layoutY="18.0" mnemonicParsing="false" text="Random category" />
                         <Separator layoutY="51.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Button layoutX="516.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="270.0" text="Play" />
+                        <Button fx:id="btnPlay" layoutX="516.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="270.0" text="Play" />
                         <Label layoutX="14.0" layoutY="68.0" text="Word or letter" />
-                        <TextField layoutX="150.0" layoutY="64.0" prefHeight="25.0" prefWidth="225.0" />
-                        <Button layoutX="384.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" text="Guess" />
-                        <TextField layoutX="150.0" layoutY="110.0" prefHeight="25.0" prefWidth="368.0" />
+                        <TextField fx:id="txtFieldGuess" layoutX="150.0" layoutY="64.0" prefHeight="25.0" prefWidth="225.0" />
+                        <Button fx:id="btnGuess" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleGuess" prefHeight="25.0" prefWidth="132.0" text="Guess" />
+                        <TextField fx:id="txtFieldWord2Guess" editable="false" layoutX="150.0" layoutY="110.0" prefHeight="25.0" prefWidth="368.0" />
                         <Label layoutX="14.0" layoutY="114.0" text="Word to guess" />
                         <Label layoutX="623.0" layoutY="433.0" prefHeight="33.0" prefWidth="57.0" rotate="1.0" text="Points">
                            <font>

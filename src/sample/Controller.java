@@ -18,8 +18,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import model.Category;
+import model.Word;
 
 import java.io.IOException;
+import java.util.Random;
 
 
 public class Controller {
@@ -42,6 +44,11 @@ public class Controller {
     public Label lblWordTabCategory;
     public Label lblCategoryNameCombobox;
     public CheckBox chkBoxCleanWords;
+    public ComboBox comboBoxSelectCategoryPlay;
+    public Button btnPlay;
+    public TextField txtFieldWord2Guess;
+    public TextField txtFieldGuess;
+    public Button btnGuess;
 
 
     public void initialize() {
@@ -117,23 +124,25 @@ public class Controller {
     }
 
     public void fillCategoryCombobox(Event event) {
-        if (tabCategories.isSelected()) {
-            comboboxCategories.getItems().clear();
-
-            try {
-                comboboxCategories.getItems().addAll(
-                        Utility.listFilesWithoutExtensionFromPath(
-                                ApplicationConstants.APP_FOLDER_DATA_PATH +
-                                        "\\" +
-                                        ApplicationConstants.CATEGORIES_FOLDER_NAME));
-            } catch (Exception e) {
-                //do nothing
-            } finally {
-                System.out.println("here I am");
-            }
+        if (tabPlay.isSelected()) {
+            updateCombobox(comboBoxSelectCategoryPlay);
+        } else if (tabCategories.isSelected()) {
+            updateCombobox(comboboxCategories);
         }
+    }
 
-        //comboboxCategories.getSelectionModel().select(0);
+    private void updateCombobox(ComboBox comboboxParam) {
+        comboboxParam.getItems().clear();
+
+        try {
+            comboboxParam.getItems().addAll(
+                    Utility.listFilesWithoutExtensionFromPath(
+                            ApplicationConstants.APP_FOLDER_DATA_PATH +
+                                    "\\" +
+                                    ApplicationConstants.CATEGORIES_FOLDER_NAME));
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 
     public void handleAddWord(ActionEvent event) {
@@ -157,12 +166,12 @@ public class Controller {
                                     + ApplicationConstants.CATEGORY_FILE_EXTENSION);
 
                     //word already exists if
-                    if(category.wordExists(txtFieldNewWord.getText())) {
+                    if (category.wordExists(txtFieldNewWord.getText())) {
                         lblWordTabCategory.setTextFill(Color.RED);
                     }
                     //else word does not exist
                     else {
-                        if(chkBoxCleanActive) {
+                        if (chkBoxCleanActive) {
                             Utility.cleanWordsInCategory(category.getWordList(),
                                     comboboxCategories.getSelectionModel().getSelectedItem().toString());
                         }
@@ -188,5 +197,54 @@ public class Controller {
         // endregion
 
 
+    }
+
+    Word wordToGuess;
+
+    String secretWord = "";
+
+    public void handlePlay(ActionEvent event) {
+
+        try {
+            Category category = CategoryParser.parseCategoryFile(false,
+                    ApplicationConstants.APP_FOLDER_DATA_PATH +
+                            "\\" +
+                            ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
+                            comboBoxSelectCategoryPlay.getSelectionModel().getSelectedItem().toString()
+                            + ApplicationConstants.CATEGORY_FILE_EXTENSION);
+
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(category.getLastIdOfWord());
+            wordToGuess = category.getWordList().get(randomNumber);
+            for (int i = 0; i < wordToGuess.getName().length(); i++) {
+                if (wordToGuess.getName().charAt(i) != ' ') {
+                    secretWord += "_";
+                }
+                else {
+                    secretWord += " ";
+                }
+            }
+            txtFieldWord2Guess.setText(secretWord);
+
+
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public void handleGuess(ActionEvent event) {
+
+        StringBuilder sb = new StringBuilder(secretWord);
+        if(wordToGuess.getName().contains(txtFieldGuess.getText())) {
+            for (int i = 0; i < wordToGuess.getName().length(); i++) {
+                if (wordToGuess.getName().charAt(i) == txtFieldGuess.getText().toCharArray()[0]) {
+                    sb.setCharAt(i,txtFieldGuess.getText().toCharArray()[0]);
+                }
+            }
+
+            secretWord = sb.toString();
+            txtFieldWord2Guess.setText(secretWord);
+        }
+        txtFieldGuess.clear();
     }
 }

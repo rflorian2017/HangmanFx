@@ -28,13 +28,21 @@ public class CategoryParser extends Parser {
         Category category = new Category(Utility.extractFileNameFromPath(categoryPath));
         String line = bufferedReader.readLine();
         while (line != null) {
-            Word word = WordParser.parseWord(line);
-            if (cleanWords && category.wordExists(word.getName())) {
-                //do nothing
-            } else {
-                category.addWordToList(word);
+            try {
+                Word word = WordParser.parseWord(line);
+                if (cleanWords && category.wordExists(word.getName())) {
+                    //do nothing
+                } else {
+                    category.addWordToList(word);
+                }
+
             }
-            line = bufferedReader.readLine();
+            catch (Exception ex) {
+
+            }
+            finally {
+                line = bufferedReader.readLine();
+            }
         }
 
         if (cleanWords) {
