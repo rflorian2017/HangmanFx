@@ -140,8 +140,9 @@ public class Controller {
         try {
             CategoryParser.parseCategoryFile(ApplicationConstants.APP_FOLDER_DATA_PATH +
                     "\\" +
-                    ApplicationConstants.CATEGORIES_FOLDER_NAME +
-                    comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                    ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
+                    comboboxCategories.getSelectionModel().getSelectedItem().toString()
+            + ApplicationConstants.CATEGORY_FILE_EXTENSION);
         } catch (IOException e) {
             e.printStackTrace();
         }
