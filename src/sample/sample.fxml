@@ -92,6 +92,7 @@
                         <TextField fx:id="txtFieldNewWord" layoutX="118.0" layoutY="88.0" prefHeight="25.0" prefWidth="298.0" />
                         <TextField fx:id="txtFieldNewHint" layoutX="118.0" layoutY="124.0" prefHeight="25.0" prefWidth="298.0" />
                         <Button fx:id="btnAddWord" layoutX="352.0" layoutY="162.0" mnemonicParsing="false" onAction="#handleAddWord" prefHeight="25.0" prefWidth="63.0" text="Add" />
+                        <CheckBox fx:id="chkBoxCleanWords" layoutX="118.0" layoutY="166.0" mnemonicParsing="false" text="Reindex files/ remove duplicates" />
                      </children>
                   </AnchorPane>
               </content>

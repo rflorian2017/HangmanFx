@@ -41,6 +41,7 @@ public class Controller {
     public Button btnAddWord;
     public Label lblWordTabCategory;
     public Label lblCategoryNameCombobox;
+    public CheckBox chkBoxCleanWords;
 
 
     public void initialize() {
@@ -136,7 +137,7 @@ public class Controller {
     }
 
     public void handleAddWord(ActionEvent event) {
-
+        boolean chkBoxCleanActive = chkBoxCleanWords.isSelected();
 
         // region combobox category
         if (comboboxCategories.getSelectionModel().getSelectedIndex() == -1) {
@@ -148,7 +149,7 @@ public class Controller {
             if (!txtFieldNewWord.getText().isEmpty()) {
                 lblWordTabCategory.setTextFill(Color.BLACK);
                 try {
-                    Category category = CategoryParser.parseCategoryFile(
+                    Category category = CategoryParser.parseCategoryFile(chkBoxCleanActive,
                             ApplicationConstants.APP_FOLDER_DATA_PATH +
                                     "\\" +
                                     ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
@@ -161,6 +162,10 @@ public class Controller {
                     }
                     //else word does not exist
                     else {
+                        if(chkBoxCleanActive) {
+                            Utility.cleanWordsInCategory(category.getWordList(),
+                                    comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                        }
                         lblWordTabCategory.setTextFill(Color.BLACK);
                         Utility.addWordInCategory(category.getLastIdOfWord() + 1,
                                 txtFieldNewWord.getText(),

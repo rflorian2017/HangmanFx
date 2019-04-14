@@ -1,6 +1,7 @@
 package helper;
 
 import model.Category;
+import model.Word;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,15 +22,25 @@ public class CategoryParser extends Parser {
         return categories;
     }
 
-    public static Category parseCategoryFile(String categoryPath) throws FileNotFoundException, IOException {
+    public static Category parseCategoryFile(boolean cleanWords, String categoryPath) throws FileNotFoundException, IOException {
         FileReader fileReader = new FileReader(categoryPath);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         Category category = new Category(Utility.extractFileNameFromPath(categoryPath));
         String line = bufferedReader.readLine();
         while (line != null) {
-            category.addWordToList(WordParser.parseWord(line));
+            Word word = WordParser.parseWord(line);
+            if (cleanWords && category.wordExists(word.getName())) {
+                //do nothing
+            } else {
+                category.addWordToList(word);
+            }
             line = bufferedReader.readLine();
         }
+
+        if (cleanWords) {
+            category.reindexWordList();
+        }
+
         return category;
     }
 }
