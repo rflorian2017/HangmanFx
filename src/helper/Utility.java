@@ -12,7 +12,7 @@ import java.util.List;
 public class Utility {
     public static void createDirectory(String path) {
         File directory = new File(path);
-        if(!directory.exists()) {
+        if (!directory.exists()) {
             directory.mkdir();
         }
     }
@@ -38,17 +38,21 @@ public class Utility {
         ArrayList<String> fileNamesWithoutExtension = new ArrayList<>();
         File directory = new File(path);
 
-        for(File file : directory.listFiles()) {
+        for (File file : directory.listFiles()) {
             try {
                 fileNamesWithoutExtension.add(
                         file.getName().substring(0, file.getName().indexOf(".")));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 //do nothing, go on to next file
             }
         }
 
         return fileNamesWithoutExtension;
+    }
+
+    public static String extractFileNameFromPath(String path) {
+        File file = new File(path);
+        return file.getName().substring(0, file.getName().indexOf("."));
     }
 
     public static void addWordInCategory(String newWord, String newHint, String categoryName) throws IOException {
@@ -62,7 +66,7 @@ public class Utility {
         FileWriter fileWriter = new FileWriter(categoryPath, true);
         BufferedWriter writer = new BufferedWriter(fileWriter);
         writer.append(newWord);
-        if(!newHint.isEmpty()) {
+        if (!newHint.isEmpty()) {
             writer.append(ApplicationConstants.WORD_SEPARATOR_IN_CATEGORY_ENTRY);
             writer.append(newHint);
         }

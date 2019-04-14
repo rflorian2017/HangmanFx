@@ -1,6 +1,7 @@
 package sample;
 
 import constants.ApplicationConstants;
+import helper.CategoryParser;
 import helper.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import model.Category;
 
 import java.io.IOException;
 
@@ -134,6 +136,15 @@ public class Controller {
     }
 
     public void handleAddWord(ActionEvent event) {
+
+        try {
+            CategoryParser.parseCategoryFile(ApplicationConstants.APP_FOLDER_DATA_PATH +
+                    "\\" +
+                    ApplicationConstants.CATEGORIES_FOLDER_NAME +
+                    comboboxCategories.getSelectionModel().getSelectedItem().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // region combobox category
         if(comboboxCategories.getSelectionModel().getSelectedIndex() == -1) {
             lblCategoryNameCombobox.setTextFill(Color.RED);
