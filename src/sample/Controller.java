@@ -108,15 +108,15 @@ public class Controller {
         if (!txtFieldCategoryName.getText().isEmpty()) {
             Utility.createCategoryFile(txtFieldCategoryName.getText());
             fillCategoryCombobox(null);
+            comboboxCategories.getSelectionModel().select(txtFieldCategoryName.getText());
             txtFieldCategoryName.clear();
         }
-
 
 
     }
 
     public void fillCategoryCombobox(Event event) {
-        if(tabCategories.isSelected()) {
+        if (tabCategories.isSelected()) {
             comboboxCategories.getItems().clear();
 
             try {
@@ -137,40 +137,45 @@ public class Controller {
 
     public void handleAddWord(ActionEvent event) {
 
-        try {
-            CategoryParser.parseCategoryFile(ApplicationConstants.APP_FOLDER_DATA_PATH +
-                    "\\" +
-                    ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
-                    comboboxCategories.getSelectionModel().getSelectedItem().toString()
-            + ApplicationConstants.CATEGORY_FILE_EXTENSION);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // region combobox category
-        if(comboboxCategories.getSelectionModel().getSelectedIndex() == -1) {
-            lblCategoryNameCombobox.setTextFill(Color.RED);
-        }
 
-        else {
+        // region combobox category
+        if (comboboxCategories.getSelectionModel().getSelectedIndex() == -1) {
+            lblCategoryNameCombobox.setTextFill(Color.RED);
+        } else {
             lblCategoryNameCombobox.setTextFill(Color.BLACK);
 
             // region Text field new word
-            if(!txtFieldNewWord.getText().isEmpty()) {
+            if (!txtFieldNewWord.getText().isEmpty()) {
                 lblWordTabCategory.setTextFill(Color.BLACK);
                 try {
-                    Utility.addWordInCategory(txtFieldNewWord.getText(),
-                            txtFieldNewHint.getText(),
-                            comboboxCategories.getSelectionModel().getSelectedItem().toString());
-                    comboboxCategories.getSelectionModel().select(-1);
-                    txtFieldNewWord.clear();
-                    txtFieldNewHint.clear();
+                    Category category = CategoryParser.parseCategoryFile(
+                            ApplicationConstants.APP_FOLDER_DATA_PATH +
+                                    "\\" +
+                                    ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
+                                    comboboxCategories.getSelectionModel().getSelectedItem().toString()
+                                    + ApplicationConstants.CATEGORY_FILE_EXTENSION);
+
+                    //word already exists if
+                    if(category.wordExists(txtFieldNewWord.getText())) {
+                        lblWordTabCategory.setTextFill(Color.RED);
+                    }
+                    //else word does not exist
+                    else {
+                        lblWordTabCategory.setTextFill(Color.BLACK);
+                        Utility.addWordInCategory(category.getLastIdOfWord() + 1,
+                                txtFieldNewWord.getText(),
+                                txtFieldNewHint.getText(),
+                                comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                        comboboxCategories.getSelectionModel().select(-1);
+                        txtFieldNewWord.clear();
+                        txtFieldNewHint.clear();
+
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println(e.getMessage());
                 }
-            }
-
-            else {
+            } else {
                 lblWordTabCategory.setTextFill(Color.RED);
             }
             // endregion

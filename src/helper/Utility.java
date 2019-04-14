@@ -55,7 +55,8 @@ public class Utility {
         return file.getName().substring(0, file.getName().indexOf("."));
     }
 
-    public static void addWordInCategory(String newWord, String newHint, String categoryName) throws IOException {
+    public static void addWordInCategory(int id, String newWord, String newHint, String categoryName)
+            throws IOException {
         String categoryPath = ApplicationConstants.APP_FOLDER_DATA_PATH +
                 "\\" +
                 ApplicationConstants.CATEGORIES_FOLDER_NAME +
@@ -65,6 +66,7 @@ public class Utility {
 
         FileWriter fileWriter = new FileWriter(categoryPath, true);
         BufferedWriter writer = new BufferedWriter(fileWriter);
+        writer.append(id+ApplicationConstants.WORD_SEPARATOR_IN_CATEGORY_ENTRY);
         writer.append(newWord);
         if (!newHint.isEmpty()) {
             writer.append(ApplicationConstants.WORD_SEPARATOR_IN_CATEGORY_ENTRY);

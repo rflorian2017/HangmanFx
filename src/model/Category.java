@@ -12,7 +12,20 @@ public class Category {
         wordList = new ArrayList<>();
     }
 
-    public void addWordToList(Word newWord)  {
+    public void addWordToList(Word newWord) {
         wordList.add(newWord);
+    }
+
+    public int getLastIdOfWord() {
+        return wordList.size() > 0 ? wordList.get(wordList.size() - 1).getId() : 0;
+    }
+
+    public boolean wordExists(String word) {
+        for (Word wordInList : wordList) {
+            if(word.equals(wordInList.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
