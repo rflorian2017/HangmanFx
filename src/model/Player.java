@@ -32,4 +32,15 @@ public class Player {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(obj instanceof Player) {
+            return this.getName().equals(((Player) obj).getName());
+        }
+        return false;
+    }
 }
