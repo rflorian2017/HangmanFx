@@ -27,6 +27,7 @@ public class CategoryParser extends Parser {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         Category category = new Category(Utility.extractFileNameFromPath(categoryPath));
         String line = bufferedReader.readLine();
+
         while (line != null) {
             try {
                 Word word = WordParser.parseWord(line);
@@ -49,6 +50,8 @@ public class CategoryParser extends Parser {
             category.reindexWordList();
         }
 
+
         return category;
+
     }
 }

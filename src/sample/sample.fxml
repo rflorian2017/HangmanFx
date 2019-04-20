@@ -22,6 +22,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
+                  <MenuItem fx:id="mnuItmRegisterPlayer" mnemonicParsing="false" onAction="#activateLoginTab" text="Register player" />
               <MenuItem fx:id="mnuItmChangeCategories" mnemonicParsing="false" onAction="#activateLoginTab" text="Change categories" />
             </items>
           </Menu>
@@ -47,7 +48,7 @@
                         <Button fx:id="btnPlay" layoutX="516.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="270.0" text="Play" />
                         <Label layoutX="14.0" layoutY="68.0" text="Word or letter" />
                         <TextField fx:id="txtFieldGuess" layoutX="150.0" layoutY="64.0" prefHeight="25.0" prefWidth="225.0" />
-                        <Button fx:id="btnGuess" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleGuess" prefHeight="25.0" prefWidth="132.0" text="Guess" />
+                        <Button fx:id="btnGuess" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleGuess" onKeyReleased="#onRelease" prefHeight="25.0" prefWidth="132.0" text="Guess" />
                         <TextField fx:id="txtFieldWord2Guess" editable="false" layoutX="150.0" layoutY="110.0" prefHeight="25.0" prefWidth="368.0" />
                         <Label layoutX="14.0" layoutY="114.0" text="Word to guess" />
                         <Label layoutX="623.0" layoutY="433.0" prefHeight="33.0" prefWidth="57.0" rotate="1.0" text="Points">

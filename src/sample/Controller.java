@@ -49,14 +49,18 @@ public class Controller {
     public TextField txtFieldWord2Guess;
     public TextField txtFieldGuess;
     public Button btnGuess;
+    public MenuItem mnuItmRegisterPlayer;
 
 
     public void initialize() {
         tabPane.getTabs().remove(tabLogin);
-        //tabPane.getTabs().remove(tabCategories);
+        tabPane.getTabs().remove(tabCategories);
+        tabPlay.setDisable(true);
+
     }
 
     public void loginAction(ActionEvent event) {
+
         //text of button login is Login
         if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGIN_TEXT)) {
 
@@ -87,7 +91,7 @@ public class Controller {
             }
         }
         //button has text Logout
-        else {
+        else if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGOUT_TEXT)){
             //allow to edit text field user name and password field and clear the text
             txtFieldUserName.setEditable(true);
             passwordFieldPwd.setEditable(true);
@@ -97,13 +101,33 @@ public class Controller {
             btnLogin.setText(ApplicationConstants.BTN_LOGIN_TEXT);
             tabPane.getTabs().remove(tabLogin);
             tabPane.getTabs().remove(tabCategories);
+            //tabPane.getSelectionModel().select(tabPlay);
+        }
+
+        else {
+            tabPlay.setDisable(false);
             tabPane.getSelectionModel().select(tabPlay);
         }
+
     }
 
     public void activateLoginTab(ActionEvent event) {
-        tabPane.getTabs().add(tabLogin);
-        tabPane.getSelectionModel().select(tabLogin);
+        if(event.getSource().equals(mnuItmChangeCategories))
+        {
+            if(!tabPane.getTabs().contains(tabLogin)) {
+                tabPane.getTabs().add(tabLogin);
+            }
+            tabPane.getSelectionModel().select(tabLogin);
+            btnLogin.setText(ApplicationConstants.BTN_LOGIN_TEXT);
+        }
+        if(event.getSource().equals(mnuItmRegisterPlayer)) {
+            if(!tabPane.getTabs().contains(tabLogin)) {
+                tabPane.getTabs().add(tabLogin);
+            }
+            tabPane.getSelectionModel().select(tabLogin);
+            btnLogin.setText(ApplicationConstants.BTN_REGISTER_PLAYER);
+        }
+
     }
 
     public void loginEnterKey(KeyEvent keyEvent) {
@@ -219,8 +243,7 @@ public class Controller {
             for (int i = 0; i < wordToGuess.getName().length(); i++) {
                 if (wordToGuess.getName().charAt(i) != ' ') {
                     secretWord += "_";
-                }
-                else {
+                } else {
                     secretWord += " ";
                 }
             }
@@ -232,13 +255,14 @@ public class Controller {
         }
     }
 
-    public void handleGuess(ActionEvent event) {
+    @FXML
+    public void handleGuess() {
 
         StringBuilder sb = new StringBuilder(secretWord);
-        if(wordToGuess.getName().contains(txtFieldGuess.getText())) {
+        if (wordToGuess.getName().contains(txtFieldGuess.getText())) {
             for (int i = 0; i < wordToGuess.getName().length(); i++) {
                 if (wordToGuess.getName().charAt(i) == txtFieldGuess.getText().toCharArray()[0]) {
-                    sb.setCharAt(i,txtFieldGuess.getText().toCharArray()[0]);
+                    sb.setCharAt(i, txtFieldGuess.getText().toCharArray()[0]);
                 }
             }
 
@@ -246,5 +270,8 @@ public class Controller {
             txtFieldWord2Guess.setText(secretWord);
         }
         txtFieldGuess.clear();
+    }
+
+    public void onRelease(KeyEvent keyEvent) {
     }
 }
