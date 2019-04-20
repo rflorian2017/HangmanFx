@@ -12,4 +12,7 @@ public class ApplicationConstants {
     public static final String CATEGORY_FILE_EXTENSION = ".txt";
     public static final String WORD_SEPARATOR_IN_CATEGORY_ENTRY = ";";
 
+    public static final String PLAYERS_FOLDER_NAME = "players";
+    public static final String PATH_SEPARATOR = "\\"; //windows style
+
 }

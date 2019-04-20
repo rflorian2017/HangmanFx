@@ -2,6 +2,7 @@ package sample;
 
 import constants.ApplicationConstants;
 import helper.CategoryParser;
+import helper.PlayerRegister;
 import helper.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import model.Category;
+import model.Player;
 import model.Word;
 
 import java.io.IOException;
@@ -91,7 +93,7 @@ public class Controller {
             }
         }
         //button has text Logout
-        else if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGOUT_TEXT)){
+        else if (btnLogin.getText().equals(ApplicationConstants.BTN_LOGOUT_TEXT)) {
             //allow to edit text field user name and password field and clear the text
             txtFieldUserName.setEditable(true);
             passwordFieldPwd.setEditable(true);
@@ -104,7 +106,43 @@ public class Controller {
             //tabPane.getSelectionModel().select(tabPlay);
         }
 
+        //button Login has text Player login
         else {
+            PlayerRegister playerRegister = new PlayerRegister();
+            //now try to save the player to file
+            playerRegister.registerPlayer(
+                    new Player(txtFieldUserName.getText(),
+                            passwordFieldPwd.getText()
+                    )
+            );
+
+
+            //correct user name and password
+            if (txtFieldUserName.getText().equals(ApplicationConstants.APP_USERNAME) &&
+                    passwordFieldPwd.getText().equals(ApplicationConstants.APP_PASSWORD)) {
+
+                btnLogin.setText(ApplicationConstants.BTN_LOGOUT_TEXT);
+                lblPassword.setTextFill(Color.BLACK);
+                lblUsername.setTextFill(Color.BLACK);
+
+                //add tab categories
+                tabPane.getTabs().add(tabCategories);
+                //activate tab categories
+                tabPane.getSelectionModel().select(tabCategories);
+
+                //do not allow anymore to edit text field user name and password field
+                txtFieldUserName.setEditable(false);
+                passwordFieldPwd.setEditable(false);
+                //uncomment this line to decorate text field with other font
+                //txtFieldUserName.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 12));
+
+            }
+            //incorrect user name or password
+            else {
+                lblPassword.setTextFill(Color.RED);
+                lblUsername.setTextFill(Color.RED);
+            }
+
             tabPlay.setDisable(false);
             tabPane.getSelectionModel().select(tabPlay);
         }
@@ -112,16 +150,15 @@ public class Controller {
     }
 
     public void activateLoginTab(ActionEvent event) {
-        if(event.getSource().equals(mnuItmChangeCategories))
-        {
-            if(!tabPane.getTabs().contains(tabLogin)) {
+        if (event.getSource().equals(mnuItmChangeCategories)) {
+            if (!tabPane.getTabs().contains(tabLogin)) {
                 tabPane.getTabs().add(tabLogin);
             }
             tabPane.getSelectionModel().select(tabLogin);
             btnLogin.setText(ApplicationConstants.BTN_LOGIN_TEXT);
         }
-        if(event.getSource().equals(mnuItmRegisterPlayer)) {
-            if(!tabPane.getTabs().contains(tabLogin)) {
+        if (event.getSource().equals(mnuItmRegisterPlayer)) {
+            if (!tabPane.getTabs().contains(tabLogin)) {
                 tabPane.getTabs().add(tabLogin);
             }
             tabPane.getSelectionModel().select(tabLogin);
