@@ -25,6 +25,7 @@ import model.Word;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -110,52 +111,33 @@ public class Controller {
 
         //button Login has text Player login
         else {
+
+            // player register contains methods for reading writing xml
             PlayerRegister playerRegister = new PlayerRegister();
-            //now try to save the player to file
 
-            Player player = playerRegister.readPlayer(txtFieldUserName.getText());
-            ArrayList<Player> playersList = new ArrayList<>();
-            playersList.add(player);
+            // read players.xml file into a Players object
+            Players players = playerRegister.readPlayerList();
 
-            Players players = new Players();
-            players.setPlayerList(playersList);
+            // we have players . xml and at least one player inside
+            Player player = new Player(txtFieldUserName.getText(),
+                    passwordFieldPwd.getText());
 
+            if (players != null) {
+                if (players.getPlayerList().contains(player)) {
+                    //nothing to do, just login the user
+                } else {
+                    players.getPlayerList().add(player);
+                }
+
+            } else {
+                players = new Players();
+                List<Player> playerList = new ArrayList<>();
+                playerList.add(player);
+                players.setPlayerList(playerList);
+
+            }
             playerRegister.registerPlayer(players);
 
-            if(player == null) {
-                playerRegister.registerPlayer(
-                        new Player(txtFieldUserName.getText(),
-                                passwordFieldPwd.getText()
-                        )
-                );
-            }
-
-
-            //correct user name and password
-            if (txtFieldUserName.getText().equals(ApplicationConstants.APP_USERNAME) &&
-                    passwordFieldPwd.getText().equals(ApplicationConstants.APP_PASSWORD)) {
-
-                btnLogin.setText(ApplicationConstants.BTN_LOGOUT_TEXT);
-                lblPassword.setTextFill(Color.BLACK);
-                lblUsername.setTextFill(Color.BLACK);
-
-                //add tab categories
-                tabPane.getTabs().add(tabCategories);
-                //activate tab categories
-                tabPane.getSelectionModel().select(tabCategories);
-
-                //do not allow anymore to edit text field user name and password field
-                txtFieldUserName.setEditable(false);
-                passwordFieldPwd.setEditable(false);
-                //uncomment this line to decorate text field with other font
-                //txtFieldUserName.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 12));
-
-            }
-            //incorrect user name or password
-            else {
-                lblPassword.setTextFill(Color.RED);
-                lblUsername.setTextFill(Color.RED);
-            }
 
             tabPlay.setDisable(false);
             tabPane.getSelectionModel().select(tabPlay);

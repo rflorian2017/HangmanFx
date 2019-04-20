@@ -6,9 +6,11 @@ import java.util.List;
 
 @XmlRootElement(name = "players")
 public class Players {
-    @XmlElement(name = "player")
+
+
     private List<Player> playerList;
 
+    @XmlElement(name = "player")
     public List<Player> getPlayerList() {
         return playerList;
     }
