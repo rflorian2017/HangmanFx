@@ -110,11 +110,16 @@ public class Controller {
         else {
             PlayerRegister playerRegister = new PlayerRegister();
             //now try to save the player to file
-            playerRegister.registerPlayer(
-                    new Player(txtFieldUserName.getText(),
-                            passwordFieldPwd.getText()
-                    )
-            );
+
+            Player player = playerRegister.readPlayer(txtFieldUserName.getText());
+
+            if(player == null) {
+                playerRegister.registerPlayer(
+                        new Player(txtFieldUserName.getText(),
+                                passwordFieldPwd.getText()
+                        )
+                );
+            }
 
 
             //correct user name and password
