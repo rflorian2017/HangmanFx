@@ -15,4 +15,5 @@ public class ApplicationConstants {
     public static final String PLAYERS_FOLDER_NAME = "players";
     public static final String PATH_SEPARATOR = "\\"; //windows style
 
+    public static final String PLAYER_LIST = "players.xml";
 }

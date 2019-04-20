@@ -20,9 +20,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import model.Category;
 import model.Player;
+import model.Players;
 import model.Word;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -112,6 +114,13 @@ public class Controller {
             //now try to save the player to file
 
             Player player = playerRegister.readPlayer(txtFieldUserName.getText());
+            ArrayList<Player> playersList = new ArrayList<>();
+            playersList.add(player);
+
+            Players players = new Players();
+            players.setPlayerList(playersList);
+
+            playerRegister.registerPlayer(players);
 
             if(player == null) {
                 playerRegister.registerPlayer(
