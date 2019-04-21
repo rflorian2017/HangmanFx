@@ -12,6 +12,10 @@ public class Category {
         return wordList;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Category(String name) {
         this.name = name;
         wordList = new ArrayList<>();

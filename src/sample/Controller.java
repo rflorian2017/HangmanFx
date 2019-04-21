@@ -172,7 +172,7 @@ public class Controller {
 
     public void addCategory(ActionEvent event) {
         if (!txtFieldCategoryName.getText().isEmpty()) {
-            if(false) {
+            if (false) {
                 Utility.createCategoryFile(txtFieldCategoryName.getText());
             }
 
@@ -203,7 +203,7 @@ public class Controller {
 
 
         try {
-            if(false) {
+            if (false) {
                 comboboxParam.getItems().addAll(
                         Utility.listFilesWithoutExtensionFromPath(
                                 ApplicationConstants.APP_FOLDER_DATA_PATH +
@@ -231,33 +231,46 @@ public class Controller {
             if (!txtFieldNewWord.getText().isEmpty()) {
                 lblWordTabCategory.setTextFill(Color.BLACK);
                 try {
-                    Category category = CategoryParser.parseCategoryFile(chkBoxCleanActive,
-                            ApplicationConstants.APP_FOLDER_DATA_PATH +
-                                    "\\" +
-                                    ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
-                                    comboboxCategories.getSelectionModel().getSelectedItem().toString()
-                                    + ApplicationConstants.CATEGORY_FILE_EXTENSION);
+                    if (false) {
+                        Category category = CategoryParser.parseCategoryFile(chkBoxCleanActive,
+                                ApplicationConstants.APP_FOLDER_DATA_PATH +
+                                        "\\" +
+                                        ApplicationConstants.CATEGORIES_FOLDER_NAME + "\\" +
+                                        comboboxCategories.getSelectionModel().getSelectedItem().toString()
+                                        + ApplicationConstants.CATEGORY_FILE_EXTENSION);
 
-                    //word already exists if
-                    if (category.wordExists(txtFieldNewWord.getText())) {
-                        lblWordTabCategory.setTextFill(Color.RED);
-                    }
-                    //else word does not exist
-                    else {
-                        if (chkBoxCleanActive) {
-                            Utility.cleanWordsInCategory(category.getWordList(),
-                                    comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                        //word already exists if
+                        if (category.wordExists(txtFieldNewWord.getText())) {
+                            lblWordTabCategory.setTextFill(Color.RED);
                         }
-                        lblWordTabCategory.setTextFill(Color.BLACK);
-                        Utility.addWordInCategory(category.getLastIdOfWord() + 1,
-                                txtFieldNewWord.getText(),
-                                txtFieldNewHint.getText(),
-                                comboboxCategories.getSelectionModel().getSelectedItem().toString());
-                        comboboxCategories.getSelectionModel().select(-1);
-                        txtFieldNewWord.clear();
-                        txtFieldNewHint.clear();
+                        //else word does not exist
+                        else {
+                            if (chkBoxCleanActive) {
+                                Utility.cleanWordsInCategory(category.getWordList(),
+                                        comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                            }
+                            lblWordTabCategory.setTextFill(Color.BLACK);
+                            Utility.addWordInCategory(category.getLastIdOfWord() + 1,
+                                    txtFieldNewWord.getText(),
+                                    txtFieldNewHint.getText(),
+                                    comboboxCategories.getSelectionModel().getSelectedItem().toString());
+                            comboboxCategories.getSelectionModel().select(-1);
+                            txtFieldNewWord.clear();
+                            txtFieldNewHint.clear();
 
+                        }
                     }
+
+                    SqliteWrapper sqliteWrapper = new SqliteWrapper();
+                    sqliteWrapper.insertWord(
+                            new Word
+                                    (
+                                            txtFieldNewWord.getText(),
+                                            txtFieldNewHint.getText()
+                                    ),
+                            ((Category) comboboxCategories.getSelectionModel().getSelectedItem()).getId()
+                    );
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println(e.getMessage());

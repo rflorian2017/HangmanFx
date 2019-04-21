@@ -32,5 +32,8 @@ public class Word {
         this.name = name;
     }
 
-
+    public Word(String name, String hint) {
+        this.name = name;
+        this.hint = hint;
+    }
 }

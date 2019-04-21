@@ -83,7 +83,7 @@ public class SqliteWrapper {
                 "(" + ApplicationConstants.TABLE_WORDS_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ApplicationConstants.TABLE_WORDS_NAME_COLUMN + " TEXT UNIQUE NOT NULL," +
                 ApplicationConstants.TABLE_WORDS_HINT_COLUMN + " TEXT," +
-                ApplicationConstants.TABLE_WORDS_CATEGORY_ID_COLUMN + " INTEGER UNIQUE NOT NULL" +
+                ApplicationConstants.TABLE_WORDS_CATEGORY_ID_COLUMN + " INTEGER NOT NULL" +
                 ")";
         createTable(sql);
     }
@@ -160,17 +160,19 @@ public class SqliteWrapper {
     public void insertWord(Word word, int categoryId) {
         String sql = "INSERT INTO " + ApplicationConstants.TABLE_WORDS +
                 "(" +
-                ApplicationConstants.TABLE_WORDS_NAME_COLUMN +
-                ApplicationConstants.TABLE_WORDS_HINT_COLUMN +
-                ApplicationConstants.TABLE_CATEGORIES_ID_COLUMN +
+                ApplicationConstants.TABLE_WORDS_NAME_COLUMN + "," +
+                ApplicationConstants.TABLE_WORDS_HINT_COLUMN + "," +
+                ApplicationConstants.TABLE_WORDS_CATEGORY_ID_COLUMN +
                 ")" +
                 " VALUES(?,?,?);";
         try {
             Connection conn = this.connect();
             PreparedStatement statement = conn.prepareStatement(sql);
+
             statement.setString(1, word.getName());
             statement.setString(2, word.getHint());
             statement.setInt(3, categoryId);
+
             statement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
