@@ -38,6 +38,20 @@ public class ApplicationConstants {
     public static final String TABLE_PLAYERS_PASSWORD_COLUMN = "password";
     // endregion
 
+    // region table categories
+    public static final String TABLE_CATEGORIES = "categories";
+    public static final String TABLE_CATEGORIES_ID_COLUMN = "id";
+    public static final String TABLE_CATEGORIES_NAME_COLUMN = "name";
+    // endregion
+
+    // region table words
+    public static final String TABLE_WORDS = "words";
+    public static final String TABLE_WORDS_ID_COLUMN = "id";
+    public static final String TABLE_WORDS_NAME_COLUMN = "name";
+    public static final String TABLE_WORDS_HINT_COLUMN = "hint";
+    public static final String TABLE_WORDS_CATEGORY_ID_OLUMN = "category_id";
+    // endregion
+
     // endregion
 
 }

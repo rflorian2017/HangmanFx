@@ -30,6 +30,7 @@ public class SqliteWrapper {
 
     }
 
+    @Deprecated
     private String createTableCreationString(String table, HashMap<String, List<String>> columns) {
         String sql = "CREATE TABLE IF NOT EXISTS " + table + "(";
         /* the hash map contains the column name as key and the properties as the values
@@ -61,7 +62,22 @@ public class SqliteWrapper {
         }
     }
 
-    public void createPlayersTable() {
+    public void createTablePlayers() {
+        String sql = "CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_PLAYERS +
+                "(" +
+                ApplicationConstants.TABLE_PLAYERS_USERNAME_COLUMN + " TEXT UNIQUE NOT NULL, " +
+                ApplicationConstants.TABLE_PLAYERS_PASSWORD_COLUMN + " TEXT NOT NULL" +
+                ");";
+        createTable(sql);
+    }
+
+    public void createTableCategories() {
+        String sql ="CREATE TABLE IF NOT EXISTS "
+        createTable(sql);
+    }
+
+    @Deprecated
+    private void createPlayersTableComplicated() {
         HashMap<String, List<String>> columns = new HashMap<>();
 
         columns.put(ApplicationConstants.TABLE_PLAYERS_USERNAME_COLUMN,
