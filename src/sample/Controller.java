@@ -3,6 +3,7 @@ package sample;
 import constants.ApplicationConstants;
 import helper.CategoryParser;
 import helper.PlayerRegister;
+import helper.SqliteWrapper;
 import helper.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -191,12 +192,18 @@ public class Controller {
     private void updateCombobox(ComboBox comboboxParam) {
         comboboxParam.getItems().clear();
 
+
         try {
-            comboboxParam.getItems().addAll(
-                    Utility.listFilesWithoutExtensionFromPath(
-                            ApplicationConstants.APP_FOLDER_DATA_PATH +
-                                    "\\" +
-                                    ApplicationConstants.CATEGORIES_FOLDER_NAME));
+            if(false) {
+                comboboxParam.getItems().addAll(
+                        Utility.listFilesWithoutExtensionFromPath(
+                                ApplicationConstants.APP_FOLDER_DATA_PATH +
+                                        "\\" +
+                                        ApplicationConstants.CATEGORIES_FOLDER_NAME));
+            }
+
+            SqliteWrapper sqliteWrapper = new SqliteWrapper();
+            comboboxParam.getItems().addAll(sqliteWrapper.getAllCategories());
         } catch (Exception e) {
             //do nothing
         }

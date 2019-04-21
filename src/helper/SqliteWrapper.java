@@ -2,13 +2,11 @@ package helper;
 
 
 import constants.ApplicationConstants;
+import model.Category;
 import model.sql.SqlFieldTraits;
 import model.sql.SqlFieldTypes;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -93,6 +91,26 @@ public class SqliteWrapper {
         createTablePlayers();
         createTableCategories();
         createTableWords();
+    }
+
+    public List<Category> getAllCategories() {
+        String sql = "SELECT * FROM " + ApplicationConstants.TABLE_CATEGORIES;
+        List<Category> categories = new ArrayList<>();
+        Connection conn = this.connect();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                categories.add(
+                        new Category(resultSet.getString(ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN)));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
     }
 
     @Deprecated

@@ -41,4 +41,9 @@ public class Category {
             word.setId(index++);
         }
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
