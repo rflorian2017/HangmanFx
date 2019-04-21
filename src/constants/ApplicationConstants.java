@@ -49,7 +49,7 @@ public class ApplicationConstants {
     public static final String TABLE_WORDS_ID_COLUMN = "id";
     public static final String TABLE_WORDS_NAME_COLUMN = "name";
     public static final String TABLE_WORDS_HINT_COLUMN = "hint";
-    public static final String TABLE_WORDS_CATEGORY_ID_OLUMN = "category_id";
+    public static final String TABLE_WORDS_CATEGORY_ID_COLUMN = "category_id";
     // endregion
 
     // endregion

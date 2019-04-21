@@ -62,7 +62,7 @@ public class SqliteWrapper {
         }
     }
 
-    public void createTablePlayers() {
+    private void createTablePlayers() {
         String sql = "CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_PLAYERS +
                 "(" +
                 ApplicationConstants.TABLE_PLAYERS_USERNAME_COLUMN + " TEXT UNIQUE NOT NULL, " +
@@ -71,9 +71,28 @@ public class SqliteWrapper {
         createTable(sql);
     }
 
-    public void createTableCategories() {
-        String sql ="CREATE TABLE IF NOT EXISTS "
+    private void createTableCategories() {
+        String sql ="CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_CATEGORIES +
+                "(" + ApplicationConstants.TABLE_CATEGORIES_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN + " TEXT UNIQUE NOT NULL" +
+                ");";
         createTable(sql);
+    }
+
+    private void createTableWords() {
+        String sql ="CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_WORDS +
+                "(" + ApplicationConstants.TABLE_WORDS_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ApplicationConstants.TABLE_WORDS_NAME_COLUMN + " TEXT UNIQUE NOT NULL," +
+                ApplicationConstants.TABLE_WORDS_HINT_COLUMN + " TEXT," +
+                ApplicationConstants.TABLE_WORDS_CATEGORY_ID_COLUMN + " INTEGER UNIQUE NOT NULL" +
+                ")";
+        createTable(sql);
+    }
+
+    public void createAllTables() {
+        createTablePlayers();
+        createTableCategories();
+        createTableWords();
     }
 
     @Deprecated
