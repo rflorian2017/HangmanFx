@@ -3,6 +3,7 @@ package helper;
 
 import constants.ApplicationConstants;
 import model.Category;
+import model.Word;
 import model.sql.SqlFieldTraits;
 import model.sql.SqlFieldTypes;
 
@@ -70,7 +71,7 @@ public class SqliteWrapper {
     }
 
     private void createTableCategories() {
-        String sql ="CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_CATEGORIES +
+        String sql = "CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_CATEGORIES +
                 "(" + ApplicationConstants.TABLE_CATEGORIES_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN + " TEXT UNIQUE NOT NULL" +
                 ");";
@@ -78,7 +79,7 @@ public class SqliteWrapper {
     }
 
     private void createTableWords() {
-        String sql ="CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_WORDS +
+        String sql = "CREATE TABLE IF NOT EXISTS " + ApplicationConstants.TABLE_WORDS +
                 "(" + ApplicationConstants.TABLE_WORDS_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ApplicationConstants.TABLE_WORDS_NAME_COLUMN + " TEXT UNIQUE NOT NULL," +
                 ApplicationConstants.TABLE_WORDS_HINT_COLUMN + " TEXT," +
@@ -103,7 +104,11 @@ public class SqliteWrapper {
 
             while (resultSet.next()) {
                 categories.add(
-                        new Category(resultSet.getString(ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN)));
+                        new Category(
+                                resultSet.getInt(ApplicationConstants.TABLE_CATEGORIES_ID_COLUMN),
+                                resultSet.getString(ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN)
+                        )
+                );
             }
 
         } catch (SQLException e) {
@@ -111,6 +116,65 @@ public class SqliteWrapper {
         }
 
         return categories;
+    }
+
+    public List<Word> getAllWords() {
+        String sql = "SELECT * FROM " + ApplicationConstants.TABLE_WORDS;
+        List<Word> words = new ArrayList<>();
+        Connection conn = this.connect();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                words.add(
+                        new Word(
+                                resultSet.getInt(ApplicationConstants.TABLE_WORDS_ID_COLUMN),
+                                resultSet.getString(ApplicationConstants.TABLE_WORDS_NAME_COLUMN),
+                                resultSet.getString(ApplicationConstants.TABLE_WORDS_HINT_COLUMN)
+                        )
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return words;
+    }
+
+    public void insertCategory(Category category) {
+        String sql = "INSERT INTO " + ApplicationConstants.TABLE_CATEGORIES +
+                "(" + ApplicationConstants.TABLE_CATEGORIES_NAME_COLUMN + ")" +
+                " VALUES(?);";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, category.toString());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void insertWord(Word word, int categoryId) {
+        String sql = "INSERT INTO " + ApplicationConstants.TABLE_WORDS +
+                "(" +
+                ApplicationConstants.TABLE_WORDS_NAME_COLUMN +
+                ApplicationConstants.TABLE_WORDS_HINT_COLUMN +
+                ApplicationConstants.TABLE_CATEGORIES_ID_COLUMN +
+                ")" +
+                " VALUES(?,?,?);";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, word.getName());
+            statement.setString(2, word.getHint());
+            statement.setInt(3, categoryId);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Deprecated
@@ -131,7 +195,7 @@ public class SqliteWrapper {
                                 SqlFieldTraits.NOT_NULL.toString())));
 
 
-        String sql = createTableCreationString(ApplicationConstants.TABLE_PLAYERS , columns);
+        String sql = createTableCreationString(ApplicationConstants.TABLE_PLAYERS, columns);
 
     }
 }

@@ -172,8 +172,17 @@ public class Controller {
 
     public void addCategory(ActionEvent event) {
         if (!txtFieldCategoryName.getText().isEmpty()) {
-            Utility.createCategoryFile(txtFieldCategoryName.getText());
+            if(false) {
+                Utility.createCategoryFile(txtFieldCategoryName.getText());
+            }
+
+            // TODO : Check if category exists
+
+            SqliteWrapper sqliteWrapper = new SqliteWrapper();
+            sqliteWrapper.insertCategory(new Category(txtFieldCategoryName.getText()));
+
             fillCategoryCombobox(null);
+
             comboboxCategories.getSelectionModel().select(txtFieldCategoryName.getText());
             txtFieldCategoryName.clear();
         }

@@ -17,6 +17,12 @@ public class Category {
         wordList = new ArrayList<>();
     }
 
+
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public void addWordToList(Word newWord) {
         wordList.add(newWord);
     }
