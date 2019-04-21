@@ -11,4 +11,9 @@ public enum SqlFieldTraits {
     SqlFieldTraits(String trait) {
         this.trait = trait;
     }
+
+    @Override
+    public String toString() {
+        return trait;
+    }
 }

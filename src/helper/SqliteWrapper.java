@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class SqliteWrapper {
         e.g.: Username, (TEXT, UNIQUE, NOT NULL) */
         // outer loop !!!!!
         for (String columnName : columns.keySet()) {
-            sql += columnName + " " ;
-            for (String columnProperty: columns.get(columnName)) {
+            sql += columnName + " ";
+            for (String columnProperty : columns.get(columnName)) {
                 sql += columnProperty + " ";
             }
             sql += ",";
@@ -55,16 +56,29 @@ public class SqliteWrapper {
             Statement statement = conn.createStatement();
             // executed on the db defined by the connection
             statement.execute(sql);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
     public void createPlayersTable() {
         HashMap<String, List<String>> columns = new HashMap<>();
-        List<String> col
-        columns.put(ApplicationConstants.TABLE_PLAYERS_USERNAME_COLUMN, new ArrayList<String>() );
-        createTable(createTableCreationString(ApplicationConstants.TABLE_PLAYERS, ));
+
+        columns.put(ApplicationConstants.TABLE_PLAYERS_USERNAME_COLUMN,
+                new ArrayList<>(
+                        Arrays.asList(
+                                SqlFieldTypes.TEXT.toString(),
+                                SqlFieldTraits.UNIQUE.toString(),
+                                SqlFieldTraits.NOT_NULL.toString())));
+
+        columns.put(ApplicationConstants.TABLE_PLAYERS_PASSWORD_COLUMN,
+                new ArrayList<>(
+                        Arrays.asList(
+                                SqlFieldTypes.TEXT.toString(),
+                                SqlFieldTraits.NOT_NULL.toString())));
+
+
+        String sql = createTableCreationString(ApplicationConstants.TABLE_PLAYERS , columns);
+
     }
 }
